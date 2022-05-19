@@ -1,0 +1,97 @@
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+if ( ! function_exists('my_crypt'))
+{
+    function my_crypt($string, $action = 'e' )
+    {
+        $secret_key = 'advance_agro_key';
+	    $secret_iv = 'advance_agro_iv';
+
+	    $output = false;
+	    $encrypt_method = "AES-256-CBC";
+	    $key = hash( 'sha256', $secret_key );
+	    $iv = substr( hash( 'sha256', $secret_iv ), 0, 16 );
+
+	    if( $action == 'e' ) {
+	        $output = base64_encode( openssl_encrypt( $string, $encrypt_method, $key, 0, $iv ) );
+	    }
+	    else if( $action == 'd' ){
+	        $output = openssl_decrypt( base64_decode( $string ), $encrypt_method, $key, 0, $iv );
+	    }
+
+	    return $output;
+    }   
+}
+
+if ( ! function_exists('flashMsg'))
+{
+    function flashMsg($success, $succmsg, $failmsg, $redirect)
+    {
+    	$CI =& get_instance();
+        
+        if ($success)
+            $CI->session->set_flashdata('success',$succmsg);
+        else
+            $CI->session->set_flashdata('error', $failmsg);
+        
+        return redirect($redirect);
+    }
+}
+
+if ( ! function_exists('assets'))
+{
+    function assets($url='')
+    {
+        return base_url('assets/').$url;
+    }
+}
+
+if ( ! function_exists('re'))
+{
+    function re($array='')
+    {
+        echo "<pre>";
+        print_r($array);
+        exit;
+    }
+}
+
+if ( ! function_exists('e_id'))
+{
+    function e_id($id)
+    {
+        return $id * 44545;
+    }
+}
+
+if ( ! function_exists('d_id'))
+{
+    function d_id($id)
+    {
+        return $id / 44545;
+    }
+}
+
+if ( ! function_exists('send_sms'))
+{
+    function send_sms($contact, $sms)
+    {
+        if($_SERVER['HTTP_HOST'] != 'localhost'){
+            $from = 'ADAGRI';
+            $key = '5616D3CE76699D';
+            $template = '1207163369281069406';
+    
+            $url = "key=".$key."&campaign=12492&routeid=7&type=text&contacts=".$contact."&senderid=".$from."&msg=".urlencode($sms)."&template_id=".$template;
+    
+            $base_URL = 'http://densetek.tk/app/smsapi/index?'.$url;
+    
+            $curl_handle = curl_init();
+            curl_setopt($curl_handle,CURLOPT_URL,$base_URL);
+            curl_setopt($curl_handle,CURLOPT_CONNECTTIMEOUT,2);
+            curl_setopt($curl_handle,CURLOPT_RETURNTRANSFER,1);
+            $result = curl_exec($curl_handle);
+            curl_close($curl_handle);
+            return $result;
+        }
+    }
+}

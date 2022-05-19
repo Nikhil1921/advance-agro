@@ -1,0 +1,23 @@
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
+
+$route['default_controller'] = 'home';
+$route['404_override'] = '';
+$route['translate_uri_dashes'] = TRUE;
+$route['otp'] = 'login/otp';
+$route['logout'] = 'home/logout';
+$route['profile'] = 'home/profile';
+$route['brokerage'] = 'home/brokerage';
+$route['greetings'] = 'home/greetings';
+$route['invoice']['post'] = 'invoice/get';
+$route['address']['post'] = 'address/get';
+$route['address/update/(:num)']['get'] = 'address/edit/$1';
+$route['company']['post'] = 'company/get';
+$route['company/update/(:num)']['get'] = 'company/edit/$1';
+$route['product']['post'] = 'product/get';
+$route['product/update/(:num)']['get'] = 'product/edit/$1';
+$route['packing']['post'] = 'packing/get';
+$route['packing/update/(:num)']['get'] = 'packing/edit/$1';
+$route['contract']['post'] = 'contract/get';
+$route['contract/update/(:num)']['get'] = 'contract/edit/$1';
+$route['payment']['post'] = 'payment/get';
+$route['payment/update/(:num)']['get'] = 'payment/edit/$1';
