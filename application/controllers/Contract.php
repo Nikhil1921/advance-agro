@@ -156,7 +156,7 @@ class Contract extends MY_Controller {
 
             if ($row->status == 'Pending'){
                 $action .= anchor($this->redirect.'/update/'.e_id($row->id), '<i class="fa fa-edit"></i>', 'class="btn btn-outline-primary mr-2"').
-                        anchor($this->redirect.'/note/'.e_id($row->id), '<i class="fa fa-sticky-note"></i>', 'class="btn btn-outline-primary mr-2"').
+                        // anchor($this->redirect.'/note/'.e_id($row->id), '<i class="fa fa-sticky-note"></i>', 'class="btn btn-outline-primary mr-2"').
                         form_button([ 'content' => '<i class="fas fa-upload"></i>','type'  => 'button','class' => 'btn btn-outline-secondary mr-2', 'onclick' => "uploadCertificate(".e_id($row->id).")"]);
 
             }

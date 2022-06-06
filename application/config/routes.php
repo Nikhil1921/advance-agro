@@ -21,3 +21,5 @@ $route['contract']['post'] = 'contract/get';
 $route['contract/update/(:num)']['get'] = 'contract/edit/$1';
 $route['payment']['post'] = 'payment/get';
 $route['payment/update/(:num)']['get'] = 'payment/edit/$1';
+$route['credit-notes']['post'] = 'credit-notes/get';
+$route['debit-notes']['post'] = 'debit-notes/get';

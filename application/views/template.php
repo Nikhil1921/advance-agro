@@ -67,6 +67,12 @@
               <li class="nav-item">
                 <?= anchor('invoice', 'Invoice', 'class="nav-link '.(($name == 'invoice') ? 'active' : '').'"') ?>
               </li>
+              <li class="nav-item">
+                <?= anchor('credit-notes', 'Credit notes', 'class="nav-link '.(($name == 'credit-notes') ? 'active' : '').'"') ?>
+              </li>
+              <li class="nav-item">
+                <?= anchor('debit-notes', 'Debit notes', 'class="nav-link '.(($name == 'debit-notes') ? 'active' : '').'"') ?>
+              </li>
             </ul>
           </div>
             <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">

@@ -32,87 +32,75 @@ margin-left:50px;
       <div class="no-print">
         <?= form_open() ?>
         <div class="row">
-          <div class="col-2">
+          <div class="col-3">
+            <div class="form-group">
+              <label>Contract ID</label>
+              <select name="c_id" id="c_id" class="form-control">
+                <?php foreach($contracts as $c): ?>
+                  <option value="<?= e_id($c['id']) ?>" <?= set_value('c_id') ? set_select('c_id', e_id($c['id'])) : (isset($data['c_id']) && $data['c_id'] === $c['id'] ? 'selected' : '') ?>><?= $c['contact_id'] ?></option>
+                <?php endforeach ?>
+              </select>
+              <?= form_error('c_id') ?>
+            </div>
+          </div>
+          <div class="col-3">
             <div class="form-group">
               <label>Actual rate</label>
-              <input type="text" class="form-control" name="actual" value="<?= set_value('actual') ?>" />
+              <input type="text" class="form-control" name="actual" value="<?= set_value('actual') ? set_value('actual') : (isset($data['actual']) ? $data['actual'] : '')  ?>" />
               <?= form_error('actual') ?>
             </div>
           </div>
-          <div class="col-2">
+          <div class="col-3">
+            <div class="form-group">
+              <label>Contract ID</label>
+              <input type="text" class="form-control" name="contract" value="<?= set_value('contract') ? set_value('contract') : (isset($data['contract']) ? $data['contract'] : '')  ?>" />
+              <?= form_error('contract') ?>
+            </div>
+          </div>
+          <div class="col-3">
             <div class="form-group">
               <label>Settled rate</label>
-              <input type="text" class="form-control" name="settled" value="<?= set_value('settled') ?>" />
+              <input type="text" class="form-control" name="settled" value="<?= set_value('settled') ? set_value('settled') : (isset($data['settled']) ? $data['settled'] : '')  ?>" />
               <?= form_error('settled') ?>
             </div>
           </div>
-          <div class="col-2">
+          <div class="col-3">
             <div class="form-group">
               <label>Quantity</label>
-              <input type="text" class="form-control" name="quantity" value="<?= set_value('quantity') ?>" />
+              <input type="text" class="form-control" name="quantity" value="<?= set_value('quantity') ? set_value('quantity') : (isset($data['quantity']) ? $data['quantity'] : '')  ?>" />
               <?= form_error('quantity') ?>
             </div>
           </div>
-          <div class="col-2">
+          <div class="col-3">
             <div class="form-group">
               <label>Brokerage Percentage</label>
-              <input type="text" class="form-control" name="brokerage" value="<?= set_value('brokerage') ?>" />
+              <input type="text" class="form-control" name="brokerage" value="<?= set_value('brokerage') ? set_value('brokerage') : (isset($data['brokerage']) ? $data['brokerage'] : '')  ?>" />
               <?= form_error('brokerage') ?>
             </div>
           </div>
-          <div class="col-2">
+          <div class="col-3">
             <div class="form-group">
-              <label>Brokerage</label>
-              <input type="text" class="form-control" name="brok_price" value="<?= set_value('brok_price') ?>" />
+              <label>Brokerage Amount</label>
+              <input type="text" class="form-control" name="brok_price" value="<?= set_value('brok_price') ? set_value('brok_price') : (isset($data['brok_price']) ? $data['brok_price'] : '')  ?>" />
               <?= form_error('brok_price') ?>
             </div>
           </div>
-          <div class="col-1">
+          <div class="col-3">
             <div class="form-group">
-              <label>Note type</label>
-              <select name="note_type" id="note_type" class="form-control">
-                <option value="Credit" <?= set_select('note_type', 'Credit') ?>>Credit</option>
-                <option value="Debit" <?= set_select('note_type', 'Debit') ?>>Debit</option>
+              <label>Company</label>
+              <select name="company_id" id="company_id" class="form-control">
+                <?php foreach($companies as $com): ?>
+                  <option value="<?= e_id($com['id']) ?>" <?= set_value('company_id') ? set_select('company_id', e_id($com['id'])) : (isset($data['company_id']) && $data['company_id'] === $com['id'] ? 'selected' : '') ?>><?= $com['company_name'] ?></option>
+                <?php endforeach ?>
               </select>
+              <?= form_error('company_id') ?>
             </div>
           </div>
-          <div class="col-1">
-            <div class="form-group">
+          <div class="col-3">
               <button class="btn btn-outline-success col-12 mt-4" type="submit">Save</button>
-            </div>
           </div>
-        </div>
-        <?= form_close() ?>
-      </div>
-      <?php endif ?>
-      <?php if (isset($update)): ?>
-      <div class="no-print">
-        <?= form_open($url."/update/".e_id($print['id'])) ?>
-        <div class="row">
-          <div class="col-6">
-            <div class="form-group">
-              <label>Description of Goods</label>
-              <input type="text" class="form-control" name="goods" value="<?= $print['goods'] ?>" required />
-            </div>
-          </div>
-          <div class="col-2">
-            <div class="form-group">
-              <label>Brokerage</label>
-              <input type="text" class="form-control" name="brokerage" value="<?= $print['brokerage'] ?>" required />
-            </div>
-          </div>
-          <div class="col-2">
-            <div class="form-group">
-              <label>Date:</label>
-              <div class="input-group date" id="create_date" data-target-input="nearest">
-                <input type="text" class="form-control datetimepicker-input" data-target="#create_date" name="create_date" id="create_date" value="<?= date('m-d-Y', strtotime($print['create_date'])) ?>" required data-toggle="datetimepicker" />
-              </div>
-            </div>
-          </div>
-          <div class="col-2">
-            <div class="form-group">
-              <button class="btn btn-outline-success col-12 mt-4" type="submit">Update</button>
-            </div>
+          <div class="col-3">
+              <a href="<?= base_url($url) ?>" class="btn btn-outline-danger float-right col-12 mt-4">Go back</a>
           </div>
         </div>
         <?= form_close() ?>
@@ -137,7 +125,10 @@ margin-left:50px;
                 <div class="col-sm-3 invoice-col" style="border: 1px solid #dee2e6">
                   To
                   <address>
-                    <?php $buyer = $this->main->get('company', 'company_name, city, contact_person', ['id' => $data['buyer']]) ?>
+                    <?php
+                    $buyer = $this->main->get('company', 'company_name, city, contact_person', ['id' => $print['company_id']]);
+                    $conract = $this->main->get('contract', 'contract_date, contact_id, quantity_type', ['id' => $print['c_id']]);
+                    ?>
                     <strong><?= $buyer['company_name'] ?></strong><br>
                     <?= $buyer['city'] ?><br>
                   </address>
@@ -177,10 +168,15 @@ margin-left:50px;
                       </thead>
                       <tbody>
                         <tr>
-                          <td style="width: 80px;"><?= date("d-m-Y", strtotime($data['contract_date'])) ?></td>
-                          <td><?= $data['contact_id'] ?></td>
+                          <?php  ?>
+                          <td style="width: 80px;">
+                            <?= date("d-m-Y", strtotime($conract['contract_date'])) ?><br>
+                            <?= date("d-m-Y", $print['created_at']) ?>
+                          </td>
+                          <td><?= $conract['contact_id'] ?><br>
+                              <?= $print['contract'] ?></td>
                           <td><?= $buyer['contact_person'] ?></td>
-                          <td><?= $print['quantity'] ?> <?= $data['quantity_type'] ?></td>
+                          <td><?= $print['quantity'] ?> <?= $conract['quantity_type'] ?></td>
                           <td>BUY <?= $print['actual'] ?> / 20 kg</td>
                           <td>SELL <?= $print['settled'] ?> / 20 kg</td>
                           <td><?= $diff = abs($print['actual'] - $print['settled']) ?> / 20 kg</td>

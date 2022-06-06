@@ -13,5 +13,5 @@ RewriteRule .* - [e=HTTP_AUTHORIZATION:%1]
 </IfModule>
 
 <IfModule mod_env.c>
-    SetEnv CI_ENV testing
+    SetEnv CI_ENV development
 </IfModule>
