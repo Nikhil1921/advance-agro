@@ -16,7 +16,9 @@
         <thead>
           <tr>
             <th class="target">Sr. No.</th>
-            <th>Contract</th>
+            <th>Contract ID</th>
+            <th>Contract ID</th>
+            <th>Party Name</th>
             <th class="target">Action</th>
           </tr>
         </thead>
@@ -27,4 +29,4 @@
   </div>
 </div>
 
-<input type="hidden" id="status" value="Debit" />
+<input type="hidden" id="status" value="<?= $status ?>" />

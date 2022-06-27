@@ -124,4 +124,16 @@ class MainModel extends CI_Model
 		}
 		return $this->db->get_where($table, $where)->num_rows();
 	}
+
+	public function get_note($id)
+	{
+		$this->db->select('n.id, n.actual, n.settled, n.quantity, n.brokerage, n.note_type, n.contract_date AS contract_date3, n.brok_price, con2.contact_id AS contract, con2.contract_date AS contract_date2, c.company_name AS company_1, c2.company_name AS company_2, c3.company_name, c3.city, con.contract_date, con.contact_id, con.quantity_type, n.cd_diff')
+				 ->join('contract con', 'con.id = n.c_id', 'left')
+				 ->join('contract con2', 'con2.id = n.contract', 'left')
+				 ->join('company c', 'c.id = n.company_id', 'left')
+				 ->join('company c2', 'c2.id = n.company_id2', 'left')
+				 ->join('company c3', 'c3.id = n.company_id3', 'left');
+				 
+		return $this->db->get_where('contracts_notes n', ['n.id' => $id])->row_array();
+	}
 }

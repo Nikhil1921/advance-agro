@@ -35,12 +35,23 @@ margin-left:50px;
           <div class="col-3">
             <div class="form-group">
               <label>Contract ID</label>
-              <select name="c_id" id="c_id" class="form-control">
+              <select name="c_id" id="c_id" class="form-control select2">
                 <?php foreach($contracts as $c): ?>
                   <option value="<?= e_id($c['id']) ?>" <?= set_value('c_id') ? set_select('c_id', e_id($c['id'])) : (isset($data['c_id']) && $data['c_id'] === $c['id'] ? 'selected' : '') ?>><?= $c['contact_id'] ?></option>
                 <?php endforeach ?>
               </select>
               <?= form_error('c_id') ?>
+            </div>
+          </div>
+          <div class="col-3">
+            <div class="form-group">
+              <label>Company</label>
+              <select name="company_id" id="company_id" class="form-control select2">
+                <?php foreach($companies as $com): ?>
+                  <option value="<?= e_id($com['id']) ?>" <?= set_value('company_id') ? set_select('company_id', e_id($com['id'])) : (isset($data['company_id']) && $data['company_id'] === $com['id'] ? 'selected' : '') ?>><?= $com['company_name'] ?></option>
+                <?php endforeach ?>
+              </select>
+              <?= form_error('company_id') ?>
             </div>
           </div>
           <div class="col-3">
@@ -53,8 +64,31 @@ margin-left:50px;
           <div class="col-3">
             <div class="form-group">
               <label>Contract ID</label>
-              <input type="text" class="form-control" name="contract" value="<?= set_value('contract') ? set_value('contract') : (isset($data['contract']) ? $data['contract'] : '')  ?>" />
+              <select name="contract" id="contract" class="form-control select2">
+                <?php foreach($contracts as $c): ?>
+                  <option value="<?= e_id($c['id']) ?>" <?= set_value('contract') ? set_select('contract', e_id($c['id'])) : (isset($data['contract']) && $data['contract'] === $c['id'] ? 'selected' : '') ?>><?= $c['contact_id'] ?></option>
+                <?php endforeach ?>
+              </select>
+              <!-- <input type="text" class="form-control" name="contract" value="<?= set_value('contract') ? set_value('contract') : (isset($data['contract']) ? $data['contract'] : '')  ?>" /> -->
               <?= form_error('contract') ?>
+            </div>
+          </div>
+          <div class="col-3">
+            <div class="form-group">
+              <label>Contract Date</label>
+              <input type="date" class="form-control" name="contract_date" value="<?= set_value('contract_date') ? set_value('contract_date') : (isset($data['contract_date']) ? $data['contract_date'] : '')  ?>" />
+              <?= form_error('contract_date') ?>
+            </div>
+          </div>
+          <div class="col-3">
+            <div class="form-group">
+              <label>Company</label>
+              <select name="company_id2" id="company_id2" class="form-control select2">
+                <?php foreach($companies as $com): ?>
+                  <option value="<?= e_id($com['id']) ?>" <?= set_value('company_id2') ? set_select('company_id2', e_id($com['id'])) : (isset($data['company_id2']) && $data['company_id2'] === $com['id'] ? 'selected' : '') ?>><?= $com['company_name'] ?></option>
+                <?php endforeach ?>
+              </select>
+              <?= form_error('company_id2') ?>
             </div>
           </div>
           <div class="col-3">
@@ -87,15 +121,23 @@ margin-left:50px;
           </div>
           <div class="col-3">
             <div class="form-group">
-              <label>Company</label>
-              <select name="company_id" id="company_id" class="form-control">
-                <?php foreach($companies as $com): ?>
-                  <option value="<?= e_id($com['id']) ?>" <?= set_value('company_id') ? set_select('company_id', e_id($com['id'])) : (isset($data['company_id']) && $data['company_id'] === $com['id'] ? 'selected' : '') ?>><?= $com['company_name'] ?></option>
-                <?php endforeach ?>
-              </select>
-              <?= form_error('company_id') ?>
+              <label>CD DIFF</label>
+              <input type="text" class="form-control" name="cd_diff" value="<?= set_value('cd_diff') ? set_value('cd_diff') : (isset($data['cd_diff']) ? $data['cd_diff'] : '')  ?>" />
+              <?= form_error('cd_diff') ?>
             </div>
           </div>
+          <div class="col-3">
+            <div class="form-group">
+              <label>Company</label>
+              <select name="company_id3" id="company_id3" class="form-control select2">
+                <?php foreach($companies as $com): ?>
+                  <option value="<?= e_id($com['id']) ?>" <?= set_value('company_id3') ? set_select('company_id3', e_id($com['id'])) : (isset($data['company_id3']) && $data['company_id3'] === $com['id'] ? 'selected' : '') ?>><?= $com['company_name'] ?></option>
+                <?php endforeach ?>
+              </select>
+              <?= form_error('company_id3') ?>
+            </div>
+          </div>
+          <div class="col-12"></div>
           <div class="col-3">
               <button class="btn btn-outline-success col-12 mt-4" type="submit">Save</button>
           </div>
@@ -118,27 +160,23 @@ margin-left:50px;
                   <h2 style="text-transform: uppercase;">
                   Advance Agri Brokers<br><?= $print['note_type'] ?> Note
                   </h2>
-                  <span>subject to Unjha jurisdiction</span>
+                  <!-- <span>subject to Unjha jurisdiction</span> -->
                 </div>
               </div>
               <div class="row invoice-info">
                 <div class="col-sm-3 invoice-col" style="border: 1px solid #dee2e6">
                   To
                   <address>
-                    <?php
-                    $buyer = $this->main->get('company', 'company_name, city, contact_person', ['id' => $print['company_id']]);
-                    $conract = $this->main->get('contract', 'contract_date, contact_id, quantity_type', ['id' => $print['c_id']]);
-                    ?>
-                    <strong><?= $buyer['company_name'] ?></strong><br>
-                    <?= $buyer['city'] ?><br>
+                    <strong><?= $print['company_name'] ?></strong><br>
+                    <?= $print['city'] ?><br>
                   </address>
                 </div>
                 <div class="col-sm-2 offset-7 " >
                   <div class="col-sm-12 float-right">
                     <img class="logo" src="<?= base_url('assets/images/logo.png') ?>" width="100%">
                     <div class="float-right mt-2" style="border: 1px solid #dee2e6; padding: 5px;">
-                      <span>Date: <?= (isset($print)) ? date("d-m-Y", $print['created_at']) :  '#00000' ?></span>
-                      <span>Bill-No: <?= (isset($print)) ? $print['id'].'/'.  date("m-Y", $print['created_at']) :  '#00000' ?></span></div>
+                      <span>Date: <?= (isset($print)) ? date("d-m-Y", strtotime($print['contract_date3'])) :  '#00000' ?></span>
+                      <span><?= $print['note_type'] ?> Note No: <?= (isset($print)) ? $print['id'].'/'.  date("m-Y", strtotime($print['contract_date3'])) :  '#00000' ?></span></div>
                     </div>
                   </div>
                 </div>
@@ -170,23 +208,28 @@ margin-left:50px;
                         <tr>
                           <?php  ?>
                           <td style="width: 80px;">
-                            <?= date("d-m-Y", strtotime($conract['contract_date'])) ?><br>
-                            <?= date("d-m-Y", $print['created_at']) ?>
+                            <?= date("d-m-Y", strtotime($print['contract_date'])) ?><br>
+                            <?= date("d-m-Y", strtotime($print['contract_date2'])) ?>
                           </td>
-                          <td><?= $conract['contact_id'] ?><br>
+                          <td><?= $print['contact_id'] ?><br>
                               <?= $print['contract'] ?></td>
-                          <td><?= $buyer['contact_person'] ?></td>
-                          <td><?= $print['quantity'] ?> <?= $conract['quantity_type'] ?></td>
+                          <td><?= $print['company_1'] ?><br> <?= $print['company_2'] ?></td>
+                          <td><?= $print['quantity'] ?> <?= $print['quantity_type'] ?></td>
                           <td>BUY <?= $print['actual'] ?> / 20 kg</td>
                           <td>SELL <?= $print['settled'] ?> / 20 kg</td>
                           <td><?= $diff = abs($print['actual'] - $print['settled']) ?> / 20 kg</td>
                           <td><?= $total = $diff * $print['quantity'] * 50 ?>/-</td>
                           <td><?= $total ?>/-</td>
+                          <?php $final = ($print['note_type'] === 'Credit' ? $total - $print['brok_price'] - $print['cd_diff'] : $total + $print['brok_price'] + $print['cd_diff']) ?>
                         </tr>
                         <tr>
                           <td style="width: 100%;" colspan="7"><strong>BROKERAGE :-</strong> <?= number_format($print['brokerage'], 2, '.', '') ?> % OF BILL VALUE</td>
                           <td style="width: 100%;" class="text-center"><?= $print['brok_price'] ?>/-</td>
                           <td style="width: 100%;" class="text-center"><?= $print['brok_price'] ?>/-</td>
+                        </tr>
+                        <tr>
+                          <td style="width: 100%;" colspan="8" class="text-right"><strong>CD DIFF</strong></td>
+                          <td style="width: 100%;" class="text-center"><?= $print['cd_diff'] ?>/-</td>
                         </tr>
                         <tr height="200">
                           <td style="width: 100%; padding: 7% 1%;" colspan="8">(THIS CONTRACT IS SETTLED FROM YOUR KIND WORDS)</td>
@@ -194,8 +237,8 @@ margin-left:50px;
                         </tr>
                         <tr>
                           <td style="width: 100%;" colspan="8">IN WORDS: <span id="op"></span> </td>
-                          <td style="width: 100%;" class="text-center"><?= $total - $print['brok_price'] ?>/-</td>
-                          <input type="hidden" id="total" value="<?= $total - $print['brok_price'] ?>">
+                          <td style="width: 100%;" class="text-center"><?= $final ?>/-</td>
+                          <input type="hidden" id="total" value="<?= $final ?>">
                         </tr>
                       </tbody>
                     </table>

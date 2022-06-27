@@ -12,9 +12,10 @@ class Debit_notes extends MY_Controller {
 		$data['name'] = $this->name;
 		$data['title'] = $this->title;
         $data['url'] = $this->redirect;
+        $data['status'] = "Debit";
         $data['dataTables'] = TRUE;
         
-        return $this->template->load('template', $this->redirect.'/home', $data);
+        return $this->template->load('template', 'notes/home', $data);
 	}
 
     public function get()
@@ -27,7 +28,9 @@ class Debit_notes extends MY_Controller {
         {
             $sub_array = array();
             $sub_array[] = $sr;
-            $sub_array[] = $row->contract;
+            $sub_array[] = $row->contract1;
+            $sub_array[] = $row->contract2;
+            $sub_array[] = $row->company_name;
 
             $sub_array[] = '<div class="ml-0 table-display row">'.
                     anchor($this->redirect.'/add-update/'.e_id($row->id), '<i class="fa fa-edit"></i>', 'class="btn btn-outline-primary mr-2"').
@@ -61,11 +64,12 @@ class Debit_notes extends MY_Controller {
             $data['name'] = $this->name;
             $data['title'] = $this->title;
             $data['operation'] = "note";
+            $data['select'] = true;
             $data['url'] = $this->redirect;
-            $data['contracts'] = $this->main->getall('contract', 'contact_id, id', ['is_deleted' => 0, 'status' => 'Completed']);
+            $data['contracts'] = $this->main->getall('contract', 'contact_id, id', ['is_deleted' => 0]);
             $data['companies'] = $this->main->getall('company', 'company_name, id', ['is_deleted' => 0]);
 
-            if($id !== 0) $data['data'] = $this->main->get('contracts_notes', 'id, actual, settled, quantity, brokerage, note_type, created_at, brok_price, contract, c_id, company_id', ['id' => d_id($id)]);
+            if($id !== 0) $data['data'] = $this->main->get('contracts_notes', 'id, actual, settled, quantity, brokerage, note_type, created_at, brok_price, contract, c_id, company_id, company_id2, company_id3, contract_date, cd_diff', ['id' => d_id($id)]);
 
             if ($data['contracts'] && $data['companies'])
             {
@@ -75,16 +79,20 @@ class Debit_notes extends MY_Controller {
                 return $this->error_404();
         }else{
             $post = [
-                'actual' => $this->input->post('actual'),
-                'settled' => $this->input->post('settled'),
-                'quantity' => $this->input->post('quantity'),
-                'brokerage' => $this->input->post('brokerage'),
-                'contract' => $this->input->post('contract'),
-                'company_id' => d_id($this->input->post('company_id')),
-                'note_type' => "Debit",
-                'brok_price' => $this->input->post('brok_price'),
-                'c_id' => d_id($this->input->post('c_id')),
-                'created_at' => time()
+                'actual'           => $this->input->post('actual'),
+                'settled'          => $this->input->post('settled'),
+                'quantity'         => $this->input->post('quantity'),
+                'brokerage'        => $this->input->post('brokerage'),
+                'contract'         => d_id($this->input->post('contract')),
+                'contract_date'    => $this->input->post('contract_date'),
+                'cd_diff'          => $this->input->post('cd_diff'),
+                'company_id'       => d_id($this->input->post('company_id')),
+                'company_id2'      => d_id($this->input->post('company_id2')),
+                'company_id3'      => d_id($this->input->post('company_id3')),
+                'note_type'        => "Debit",
+                'brok_price'       => $this->input->post('brok_price'),
+                'c_id'             => d_id($this->input->post('c_id')),
+                'created_at'       => time()
             ];
             
             if($id !== 0){
@@ -105,7 +113,7 @@ class Debit_notes extends MY_Controller {
         $data['title'] = $this->title;
         $data['operation'] = "note";
         $data['url'] = $this->redirect;
-        $data['print'] = $this->main->get('contracts_notes', 'id, actual, settled, quantity, brokerage, note_type, created_at, brok_price, contract, c_id, company_id', ['id' => d_id($id)]);
+        $data['print'] = $this->main->get_note(d_id($id));
         
         if ($data['print'])
         {
@@ -132,6 +140,41 @@ class Debit_notes extends MY_Controller {
                 'errors' => [
                     'required' => "%s is Required",
                     'integer'  => "%s is Invalid",
+                ],
+            ],
+            [
+                'field' => 'company_id',
+                'label' => 'Company',
+                'rules' => 'required|integer',
+                'errors' => [
+                    'required' => "%s is Required",
+                    'integer'  => "%s is Invalid",
+                ],
+            ],
+            [
+                'field' => 'company_id2',
+                'label' => 'Company',
+                'rules' => 'required|integer',
+                'errors' => [
+                    'required' => "%s is Required",
+                    'integer'  => "%s is Invalid",
+                ],
+            ],
+            [
+                'field' => 'company_id3',
+                'label' => 'Company',
+                'rules' => 'required|integer',
+                'errors' => [
+                    'required' => "%s is Required",
+                    'integer'  => "%s is Invalid",
+                ],
+            ],
+            [
+                'field' => 'contract_date',
+                'label' => 'Contract date',
+                'rules' => 'required',
+                'errors' => [
+                    'required' => "%s is Required"
                 ],
             ],
             [
@@ -164,6 +207,15 @@ class Debit_notes extends MY_Controller {
             [
                 'field' => 'brok_price',
                 'label' => 'Brokerage',
+                'rules' => 'required|integer',
+                'errors' => [
+                    'required' => "%s is Required",
+                    'integer'  => "%s is Invalid",
+                ],
+            ],
+            [
+                'field' => 'cd_diff',
+                'label' => 'CD DIFF',
                 'rules' => 'required|integer',
                 'errors' => [
                     'required' => "%s is Required",

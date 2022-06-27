@@ -10,17 +10,20 @@ class NotesModel extends CI_Model
 		parent::__construct();
 	}
 
-	public $table = "contracts_notes c";  
-	public $select_column = ['c.id', 'c.contract'];
-	public $search_column = ['c.contract'];
-    public $order_column = [null, 'c.contract', null];
-	public $order = ['c.id' => 'DESC'];
+	public $table = "contracts_notes n";  
+	public $select_column = ['n.id', 'c1.contact_id AS contract1', 'c2.contact_id AS contract2', 'c.company_name'];
+	public $search_column = ['c1.contact_id', 'c2.contact_id', 'c.company_name'];
+    public $order_column = [null, 'c1.contact_id', 'c2.contact_id', 'c.company_name', null];
+	public $order = ['n.id' => 'DESC'];
 
 	public function make_query()  
 	{  
         $this->db->select($this->select_column)	
             ->from($this->table)
-            ->where(['note_type' => $this->input->post('status')]);
+            ->where(['n.note_type' => $this->input->post('status')])
+            ->join('company c', 'c.id = n.company_id3')
+            ->join('contract c1', 'c1.id = n.c_id')
+            ->join('contract c2', 'c2.id = n.contract');
 
         foreach ($this->search_column as $i => $item) 
         {
